@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Location Accessibility Checker</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f5f7fb;
+padding:40px;
+text-align:center;
+}
+
+.container{
+background:white;
+padding:40px;
+max-width:700px;
+margin:auto;
+border-radius:12px;
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+h1{
+margin-bottom:10px;
+}
+
+button{
+padding:12px 22px;
+border:none;
+background:#2563eb;
+color:white;
+border-radius:6px;
+cursor:pointer;
+font-size:16px;
+}
+
+button:hover{
+background:#1e4fd8;
+}
+
+#result{
+margin-top:30px;
+text-align:left;
+white-space:pre-wrap;
+background:#fafafa;
+padding:20px;
+border-radius:8px;
+line-height:1.6;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Location Accessibility Checker</h1>
+
+<p>Upload a photo of a building entrance and receive an accessibility report.</p>
+
+<input type="file" id="imageInput">
+
+<br><br>
+
+<button onclick="analyze()">Analyze Photo</button>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+async function analyze(){
+
+const file = document.getElementById("imageInput").files[0];
+
+if(!file){
+alert("Please upload an image");
+return;
+}
+
+const resultBox = document.getElementById("result");
+
+resultBox.innerText = "Analyzing accessibility...";
+
+const formData = new FormData();
+formData.append("image", file);
+
+const response = await fetch(
+"https://mbaghdadi6.app.n8n.cloud/webhook/accessibility-check",
+{
+method:"POST",
+body:formData
+}
+);
+
+const data = await response.json();
+
+let report = data.report || JSON.stringify(data);
+
+report = report.replace(/\\n/g,"\n");
+
+resultBox.innerText = report;
+
+}
+
+</script>
+
+</body>
+
+</html>
