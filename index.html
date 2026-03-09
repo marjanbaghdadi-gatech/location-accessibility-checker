@@ -23,12 +23,11 @@
             <h2>Upload Photo</h2>
 
             <form
-              id="uploadForm"
               action="https://mbaghdadi6.app.n8n.cloud/webhook/accessibility-check"
               method="POST"
               enctype="multipart/form-data"
-              target="resultFrame"
-              onsubmit="openModal()"
+              target="_blank"
+              id="uploadForm"
             >
               <label for="imageInput" class="file-label">Choose an image</label>
               <input
@@ -42,7 +41,7 @@
             </form>
 
             <p class="small-note">
-              The accessibility report will appear in a floating window over this page.
+              The accessibility report will open in a new tab after submission.
             </p>
           </div>
         </section>
@@ -84,6 +83,7 @@ Return valid JSON only in this format:
   "confidence": "low" | "medium" | "high"
 }
 
+Keep the barriers and improvements concise and specific.
 Do not add markdown.
 Do not add explanations outside the JSON.
             </div>
@@ -93,20 +93,9 @@ Do not add explanations outside the JSON.
     </div>
   </div>
 
-  <div id="resultModal" class="modal" aria-hidden="true">
-    <div class="modal-panel">
-      <div class="modal-header">
-        <span>Accessibility Report</span>
-        <button type="button" class="close-btn" onclick="closeModal()" aria-label="Close">×</button>
-      </div>
-      <iframe name="resultFrame" title="Accessibility Report"></iframe>
-    </div>
-  </div>
-
   <script>
     const input = document.getElementById("imageInput");
     const preview = document.getElementById("preview");
-    const modal = document.getElementById("resultModal");
 
     input.addEventListener("change", function () {
       const file = input.files[0];
@@ -118,22 +107,6 @@ Do not add explanations outside the JSON.
 
       const url = URL.createObjectURL(file);
       preview.innerHTML = `<img src="${url}" alt="Uploaded preview">`;
-    });
-
-    function openModal() {
-      modal.style.display = "flex";
-      modal.setAttribute("aria-hidden", "false");
-    }
-
-    function closeModal() {
-      modal.style.display = "none";
-      modal.setAttribute("aria-hidden", "true");
-    }
-
-    window.addEventListener("click", function (event) {
-      if (event.target === modal) {
-        closeModal();
-      }
     });
   </script>
 </body>
