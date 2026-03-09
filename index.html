@@ -1,89 +1,235 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Location Accessibility Checker</title>
   <style>
-    body{
+    body {
       font-family: Arial, sans-serif;
-      background:#eef2f7;
-      padding:40px;
-      text-align:center;
+      background: #eef2f7;
+      margin: 0;
+      padding: 40px 20px;
+      color: #1f2937;
     }
 
-    .container{
-      background:white;
-      max-width:800px;
-      margin:auto;
-      padding:40px;
-      border-radius:14px;
-      box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      padding: 32px;
     }
 
-    h1{
-      font-size:32px;
-      margin-bottom:10px;
+    h1 {
+      margin: 0 0 8px;
+      font-size: 40px;
+      text-align: center;
     }
 
-    p{
-      color:#555;
-      margin-bottom:24px;
+    .subtitle {
+      text-align: center;
+      color: #555;
+      margin-bottom: 28px;
+      font-size: 18px;
     }
 
-    input[type="file"]{
-      margin-bottom:20px;
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: start;
     }
 
-    button{
-      background:#2563eb;
-      color:white;
-      border:none;
-      padding:12px 22px;
-      border-radius:8px;
-      font-size:16px;
-      cursor:pointer;
+    .card {
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 22px;
     }
 
-    button:hover{
-      background:#1d4ed8;
+    .section-title {
+      margin: 0 0 14px;
+      font-size: 22px;
     }
 
-    .note{
-      margin-top:20px;
-      font-size:14px;
-      color:#666;
+    .upload-box {
+      text-align: center;
     }
 
-    iframe{
-      width:100%;
-      min-height:400px;
-      border:1px solid #ddd;
-      border-radius:10px;
-      margin-top:30px;
-      background:white;
+    input[type="file"] {
+      margin: 10px 0 18px;
+    }
+
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    .preview-box {
+      min-height: 320px;
+      background: #f3f4f6;
+      border: 1px dashed #cbd5e1;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6b7280;
+      overflow: hidden;
+    }
+
+    .preview-box img {
+      display: block;
+      max-width: 100%;
+      max-height: 420px;
+      object-fit: contain;
+    }
+
+    .note {
+      margin-top: 16px;
+      font-size: 14px;
+      color: #666;
+      text-align: center;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 22px;
+      line-height: 1.6;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .prompt-box {
+      background: #ffffff;
+      border: 1px solid #dbeafe;
+      border-radius: 12px;
+      padding: 16px;
+      white-space: pre-wrap;
+      line-height: 1.5;
+      color: #334155;
+      font-size: 14px;
+    }
+
+    .small {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    @media (max-width: 860px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 32px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Location Accessibility Checker</h1>
-    <p>Upload a photo of a location and get an accessibility report.</p>
+    <p class="subtitle">
+      Upload a photo of a building entrance or location and get an accessibility report.
+    </p>
 
-    <form
-      action="https://mbaghdadi6.app.n8n.cloud/webhook/accessibility-check"
-      method="POST"
-      enctype="multipart/form-data"
-      target="_blank"
-    >
-      <input type="file" name="image" accept="image/*" required />
-      <br><br>
-      <button type="submit">Analyze Photo</button>
-    </form>
+    <div class="grid">
+      <div class="card">
+        <h2 class="section-title">Upload Photo</h2>
 
-    <div class="note">
-      The report will open in a new tab after submission.
+        <form
+          action="https://mbaghdadi6.app.n8n.cloud/webhook/accessibility-check"
+          method="POST"
+          enctype="multipart/form-data"
+          target="_blank"
+          class="upload-box"
+        >
+          <input
+            type="file"
+            id="imageInput"
+            name="image"
+            accept="image/*"
+            required
+          />
+          <br />
+          <button type="submit">Analyze Photo</button>
+        </form>
+
+        <div class="note">
+          The accessibility report will open in a new tab after submission.
+        </div>
+
+        <div class="small">
+          This is an AI screening tool, not a formal ADA compliance inspection.
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="section-title">Uploaded Photo Preview</h2>
+        <div class="preview-box" id="previewBox">No image selected</div>
+      </div>
+
+      <div class="card">
+        <h2 class="section-title">What the AI Checks</h2>
+        <ul>
+          <li>Ramp presence or missing ramp</li>
+          <li>Potential threshold or step barriers</li>
+          <li>Door access and handle usability</li>
+          <li>Handrails or support features</li>
+          <li>Pathway width and obstacles</li>
+          <li>Clear route to the entrance</li>
+          <li>Likely barriers for wheelchair users and people with mobility impairments</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2 class="section-title">Prompt Used by the AI</h2>
+        <div class="prompt-box">Analyze this image for physical accessibility barriers for people with mobility impairments.
+
+Return valid JSON only in this format:
+{
+  "score": number,
+  "barriers": [string],
+  "improvements": [string],
+  "confidence": "low" | "medium" | "high"
+}
+
+Do not add markdown.
+Do not add explanations outside the JSON.</div>
+      </div>
     </div>
-
-    
   </div>
+
+  <script>
+    const imageInput = document.getElementById("imageInput");
+    const previewBox = document.getElementById("previewBox");
+
+    imageInput.addEventListener("change", function () {
+      const file = imageInput.files[0];
+
+      if (!file) {
+        previewBox.innerHTML = "No image selected";
+        return;
+      }
+
+      const imageUrl = URL.createObjectURL(file);
+      previewBox.innerHTML = `<img src="${imageUrl}" alt="Uploaded preview">`;
+    });
+  </script>
 </body>
 </html>
