@@ -251,55 +251,6 @@ button[type="submit"]:hover {
   color: #38405c;
 }
 
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 999;
-  align-items: center;
-  justify-content: center;
-  background: rgba(15, 23, 42, 0.55);
-  padding: 20px;
-}
-
-.modal-panel {
-  width: min(1000px, 94vw);
-  background: #ffffff;
-  border-radius: 22px;
-  overflow: hidden;
-  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.35);
-}
-
-.modal-header {
-  background: linear-gradient(90deg, #3461ff, #7c3aed);
-  color: white;
-  padding: 16px 20px;
-  font-weight: 700;
-  font-size: 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.close-btn {
-  width: 38px;
-  height: 38px;
-  border: none;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.18);
-  color: white;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-iframe {
-  width: 100%;
-  height: 560px;
-  border: none;
-  background: #ffffff;
-  display: block;
-}
-
 @media (max-width: 860px) {
   .app-shell {
     padding: 22px;
@@ -319,9 +270,5 @@ iframe {
 
   .card {
     min-height: 320px;
-  }
-
-  iframe {
-    height: 72vh;
   }
 }
