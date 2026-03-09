@@ -7,8 +7,8 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="page-shell">
-    <div class="app-card">
+  <div class="page-wrap">
+    <div class="app-shell">
       <header class="hero">
         <p class="eyebrow">AI Accessibility Screening</p>
         <h1>Location Accessibility Checker</h1>
@@ -17,9 +17,9 @@
         </p>
       </header>
 
-      <main class="grid">
-        <section class="info-card">
-          <div class="card-inner">
+      <main class="cards-grid">
+        <section class="card card-upload">
+          <div class="card-frame">
             <h2>Upload Photo</h2>
 
             <form
@@ -31,18 +31,24 @@
               onsubmit="openModal()"
             >
               <label for="imageInput" class="file-label">Choose an image</label>
-              <input type="file" name="image" id="imageInput" accept="image/*" required />
+              <input
+                type="file"
+                name="image"
+                id="imageInput"
+                accept="image/*"
+                required
+              />
               <button type="submit">Analyze Photo</button>
             </form>
 
             <p class="small-note">
-              The result opens in a floating report window on top of this page.
+              The accessibility report will appear in a floating window over this page.
             </p>
           </div>
         </section>
 
-        <section class="info-card">
-          <div class="card-inner">
+        <section class="card card-preview">
+          <div class="card-frame">
             <h2>Uploaded Photo Preview</h2>
             <div class="preview-box" id="preview">
               <span>No image selected</span>
@@ -50,13 +56,13 @@
           </div>
         </section>
 
-        <section class="info-card">
-          <div class="card-inner">
+        <section class="card card-checks">
+          <div class="card-frame">
             <h2>What the AI Checks</h2>
-            <ul class="check-list">
+            <ul class="checks-list">
               <li>Ramp presence or missing ramp</li>
-              <li>Door access and handle usability</li>
               <li>Threshold or step barriers</li>
+              <li>Door access and handle usability</li>
               <li>Handrails or support features</li>
               <li>Pathway width and obstacles</li>
               <li>Likely barriers for wheelchair users and people with mobility impairments</li>
@@ -64,8 +70,8 @@
           </div>
         </section>
 
-        <section class="info-card">
-          <div class="card-inner">
+        <section class="card card-prompt">
+          <div class="card-frame">
             <h2>Prompt Used by the AI</h2>
             <div class="prompt-box">
 Analyze this image for physical accessibility barriers for people with mobility impairments.
@@ -88,10 +94,10 @@ Do not add explanations outside the JSON.
   </div>
 
   <div id="resultModal" class="modal" aria-hidden="true">
-    <div class="modal-content">
+    <div class="modal-panel">
       <div class="modal-header">
         <span>Accessibility Report</span>
-        <button type="button" class="close-btn" onclick="closeModal()" aria-label="Close report">×</button>
+        <button type="button" class="close-btn" onclick="closeModal()" aria-label="Close">×</button>
       </div>
       <iframe name="resultFrame" title="Accessibility Report"></iframe>
     </div>
@@ -115,7 +121,7 @@ Do not add explanations outside the JSON.
     });
 
     function openModal() {
-      modal.style.display = "block";
+      modal.style.display = "flex";
       modal.setAttribute("aria-hidden", "false");
     }
 
