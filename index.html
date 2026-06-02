@@ -3,111 +3,100 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Location Accessibility Checker</title>
+  <title>Aging in Place Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="page-wrap">
-    <div class="app-shell">
-      <header class="hero">
-        <p class="eyebrow">AI Accessibility Screening</p>
-        <h1>Location Accessibility Checker</h1>
-        <p class="subtitle">
-          Upload a photo of a building entrance or location and receive an accessibility report.
-        </p>
-      </header>
 
-      <main class="cards-grid">
-        <section class="card card-upload">
-          <div class="card-frame">
-            <h2>Upload Photo</h2>
-
-            <form
-              action="https://mbaghdadi6g.app.n8n.cloud/webhook/accessibility-check"
-              method="POST"
-              enctype="multipart/form-data"
-              target="_blank"
-              id="uploadForm"
-            >
-              <label for="imageInput" class="file-label">Choose an image</label>
-              <input
-                type="file"
-                name="image"
-                id="imageInput"
-                accept="image/*"
-                required
-              />
-              <button type="submit">Analyze Photo</button>
-            </form>
-
-            <p class="small-note">
-              The accessibility report will open in a new tab after submission.
-            </p>
-          </div>
-        </section>
-
-        <section class="card card-preview">
-          <div class="card-frame">
-            <h2>Uploaded Photo Preview</h2>
-            <div class="preview-box" id="preview">
-              <span>No image selected</span>
-            </div>
-          </div>
-        </section>
-
-        <section class="card card-checks">
-          <div class="card-frame">
-            <h2>What the AI Checks</h2>
-            <ul class="checks-list">
-              <li>Ramp presence or missing ramp</li>
-              <li>Threshold or step barriers</li>
-              <li>Door access and handle usability</li>
-              <li>Handrails or support features</li>
-              <li>Pathway width and obstacles</li>
-              <li>Likely barriers for wheelchair users and people with mobility impairments</li>
-            </ul>
-          </div>
-        </section>
-
-        <section class="card card-prompt">
-          <div class="card-frame">
-            <h2>Prompt Used by the AI</h2>
-            <div class="prompt-box">
-Analyze this image for physical accessibility barriers for people with mobility impairments.
-
-Return valid JSON only in this format:
-{
-  "score": number,
-  "barriers": [string],
-  "improvements": [string],
-  "confidence": "low" | "medium" | "high"
-}
-
-Keep the barriers and improvements concise and specific.
-Do not add markdown.
-Do not add explanations outside the JSON.
-            </div>
-          </div>
-        </section>
-      </main>
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">Location Accessibility Screening</p>
+      <h1>Aging in Place <em>Assistant</em></h1>
+      <p class="sub">Upload a photo of any location and receive an AI-powered accessibility report grounded in ADA and aging-in-place guidelines.</p>
     </div>
+  </header>
+
+  <div class="body-wrap">
+
+    <!-- FORM CARD -->
+    <section class="card card-form">
+      <h2>Analyse a Location</h2>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="locationType">Location Type</label>
+          <select id="locationType">
+            <option value="entrance">Entrance / Entry Door</option>
+            <option value="bathroom">Bathroom</option>
+            <option value="shower">Shower / Wet Room</option>
+            <option value="hallway">Hallway / Corridor</option>
+            <option value="bedroom">Bedroom</option>
+            <option value="kitchen">Kitchen</option>
+            <option value="staircase">Staircase / Ramp</option>
+            <option value="parking">Parking / Exterior</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="apiKey">Access Key</label>
+          <input type="password" id="apiKey" placeholder="Enter your access key" autocomplete="off" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Photo</label>
+        <div class="drop-zone" id="dropZone">
+          <input type="file" id="imageInput" accept="image/jpeg,image/png,image/webp" />
+          <span class="drop-icon">📷</span>
+          <div class="drop-text"><strong>Click to upload</strong> or drag and drop<br>JPEG, PNG or WEBP · Max 10 MB</div>
+          <div class="drop-filename" id="dropFilename"></div>
+        </div>
+      </div>
+
+      <button class="btn-submit" id="submitBtn" onclick="submitForm()">
+        <div class="spinner" id="spinner"></div>
+        <span id="btnLabel">Analyse Accessibility</span>
+      </button>
+      <div id="status"></div>
+    </section>
+
+    <!-- PREVIEW CARD -->
+    <section class="card">
+      <h2>Photo Preview</h2>
+      <div class="preview-box" id="preview">
+        <span>No image selected</span>
+      </div>
+    </section>
+
+    <!-- CHECKS CARD -->
+    <section class="card">
+      <h2>What This Tool Checks</h2>
+      <ul class="checks-list">
+        <li>Ramp presence or missing ramp</li>
+        <li>Step and threshold barriers</li>
+        <li>Door width and handle usability</li>
+        <li>Grab bars and support features</li>
+        <li>Pathway width and obstacles</li>
+        <li>Turning radius and manoeuvring space</li>
+        <li>Lighting and slip-resistant surfaces</li>
+        <li>Wheelchair user and mobility impairment barriers</li>
+      </ul>
+    </section>
+
+    <!-- RESULT -->
+    <div id="result-wrap">
+      <iframe id="result-frame" title="Accessibility Report"></iframe>
+    </div>
+
+    <p class="disclaimer">
+      This tool is designed for educational and assistive purposes only.<br>
+      Results are grounded in ADA, AARP HomeFit, U.S. Access Board, and CDC STEADI guidelines.<br>
+      Please consult a certified professional for a formal accessibility evaluation.
+    </p>
+
   </div>
 
-  <script>
-    const input = document.getElementById("imageInput");
-    const preview = document.getElementById("preview");
-
-    input.addEventListener("change", function () {
-      const file = input.files[0];
-
-      if (!file) {
-        preview.innerHTML = "<span>No image selected</span>";
-        return;
-      }
-
-      const url = URL.createObjectURL(file);
-      preview.innerHTML = `<img src="${url}" alt="Uploaded preview">`;
-    });
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>
