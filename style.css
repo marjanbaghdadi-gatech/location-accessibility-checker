@@ -29,6 +29,9 @@ body {
   padding: 56px 40px 48px;
   position: relative;
   overflow: hidden;
+  max-width: 1080px;
+  margin: 40px auto 0;
+  border-radius: var(--radius);
 }
 .hero::before {
   content: '';
@@ -65,7 +68,7 @@ body {
 .body-wrap {
   max-width: 1080px;
   margin: 0 auto;
-  padding: 40px 24px 80px;
+  padding: 40px 0 80px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
@@ -272,8 +275,8 @@ body {
 @keyframes spin { to { transform: rotate(360deg); } }
 
 @media (max-width: 680px) {
-  .hero { padding: 36px 20px 32px; }
-  .body-wrap { grid-template-columns: 1fr; padding: 24px 16px 60px; }
+  .hero { padding: 36px 20px 32px; margin: 16px 16px 0; }
+  .body-wrap { grid-template-columns: 1fr; padding: 24px 0 60px; }
   .form-grid { grid-template-columns: 1fr; }
   .card-form { grid-column: 1; }
   #result-wrap { grid-column: 1; }
